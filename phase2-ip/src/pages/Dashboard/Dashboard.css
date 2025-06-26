@@ -1,0 +1,321 @@
+/* src/pages/Dashboard/Dashboard.css */
+.dashboard-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem 0;
+}
+
+.welcome-section {
+  text-align: center;
+  color: white;
+  margin-bottom: 3rem;
+}
+
+.welcome-section h1 {
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.welcome-section .lead {
+  font-size: 1.25rem;
+  opacity: 0.9;
+}
+
+/* Quick Actions */
+.quick-actions {
+  margin-bottom: 3rem;
+}
+
+.action-card {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.action-card:hover {
+  transform: translateY(-10px);
+  text-decoration: none;
+  color: inherit;
+}
+
+.action-card .card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.action-card:hover .card {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.action-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+.action-card:hover .action-icon {
+  transform: scale(1.1);
+}
+
+.action-card .card-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Recent Playlists */
+.recent-playlists {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+}
+
+.recent-playlists h3 {
+  color: white;
+  font-weight: 600;
+}
+
+.playlist-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.playlist-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.playlist-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.playlist-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.playlist-card:hover .playlist-image img {
+  transform: scale(1.1);
+}
+
+.playlist-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.playlist-card:hover .playlist-overlay {
+  opacity: 1;
+}
+
+.play-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: #667eea;
+  color: white;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  transform: scale(0.8);
+}
+
+.playlist-overlay:hover .play-btn {
+  transform: scale(1);
+  background: #764ba2;
+}
+
+.playlist-card .card-body {
+  padding: 1.5rem;
+}
+
+.playlist-card .card-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+/* Empty State */
+.empty-state {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 3rem;
+  color: white;
+}
+
+.empty-state i {
+  opacity: 0.7;
+}
+
+.empty-state h4 {
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+/* Stats Section */
+.stats-section {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.stat-info h3 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.stat-info p {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-page {
+    padding: 1rem 0;
+  }
+
+  .welcome-section h1 {
+    font-size: 2rem;
+  }
+
+  .welcome-section .lead {
+    font-size: 1.125rem;
+  }
+
+  .action-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+
+  .recent-playlists,
+  .stats-section {
+    padding: 1.5rem;
+  }
+
+  .playlist-image {
+    height: 150px;
+  }
+
+  .stat-card {
+    padding: 1.5rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .stat-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+
+  .stat-info h3 {
+    font-size: 2rem;
+  }
+
+  .empty-state {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .welcome-section h1 {
+    font-size: 1.75rem;
+  }
+
+  .playlist-card .card-body {
+    padding: 1rem;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .recent-playlists,
+  .stats-section {
+    padding: 1rem;
+  }
+}
+
+/* Loading Animation */
+.spinner-border {
+  color: white !important;
+}
+
+/* Button Styles */
+.btn-outline-primary {
+  border-color: white;
+  color: white;
+}
+
+.btn-outline-primary:hover {
+  background-color: white;
+  border-color: white;
+  color: #667eea;
+}
