@@ -3,7 +3,7 @@ const cors = require('cors');
 const auth = require('../phase2-ip-backend/middlewares/auth');
 
 // Import all controllers
-const { register, login, googleLogin, getMe } = require('./controllers/authController'); // ADD googleLogin
+const { register, login, googleLogin, getMe } = require('./controllers/authController');
 const { getProfile, updateProfile, changePassword } = require('./controllers/userController');
 const {
     searchMusic,
@@ -23,6 +23,9 @@ const {
     removeTrackFromPlaylist
 } = require('./controllers/playlistController');
 
+// 🎵 UPDATED: Import the enhanced AI controller with playlist generation
+const { smartSearch, generatePlaylist, testAI } = require('./controllers/aiController');
+
 const app = express();
 
 // IMPROVED CORS Configuration for Google Sign-In
@@ -39,9 +42,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
-// Handle preflight OPTIONS requests
-// app.options('*', cors(corsOptions));
 
 // Middleware
 app.use(express.json({ limit: '10mb' }));
@@ -75,7 +75,7 @@ app.get('/api/health', (req, res) => {
 // ============================================
 app.post('/api/auth/register', register);
 app.post('/api/auth/login', login);
-app.post('/api/auth/google', googleLogin); // This should work now
+app.post('/api/auth/google', googleLogin);
 app.get('/api/auth/me', auth, getMe);
 
 // ============================================
@@ -105,6 +105,15 @@ app.put('/api/playlists/:id', auth, updatePlaylist);
 app.delete('/api/playlists/:id', auth, deletePlaylist);
 app.post('/api/playlists/:id/tracks', auth, addTrackToPlaylist);
 app.delete('/api/playlists/:id/tracks/:trackId', auth, removeTrackFromPlaylist);
+
+// ============================================
+// 🎵 AI ROUTES (ENHANCED WITH PLAYLIST GENERATION)
+// ============================================
+app.get('/api/ai/test', testAI);
+app.post('/api/ai/smart-search', auth, smartSearch);
+app.post('/api/ai/generate-playlist', auth, generatePlaylist); // 🎵 NEW: AI Playlist Generator endpoint
+
+console.log('✅ All endpoints added including AI Playlist Generator');
 
 // 404 handler for API routes
 // app.use('/api/*', (req, res) => {
