@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: hendy-music-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        value: postgresql://hendyuser:HendyMusic123!@hendy-music-db.cxoac6kcfju.ap-southeast-2.rds.amazonaws.com:5432/music_app
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CORS_ORIGIN
+        value: https://hendyhuang.site

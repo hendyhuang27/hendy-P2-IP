@@ -12,12 +12,15 @@ const startServer = async () => {
         await db.sequelize.sync({ force: false });
         console.log('✅ Database synced successfully.');
 
-        app.listen(PORT, () => {
+        // CHANGED: Added '0.0.0.0' binding for Railway deployment
+        app.listen(PORT, '0.0.0.0', () => {
             console.log(`🚀 Server is running on port ${PORT}`);
-            console.log(`📍 API endpoints available at http://localhost:${PORT}/api`);
+            console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
+            console.log(`🌐 API Base URL: http://localhost:${PORT}/api`);
         });
     } catch (error) {
         console.error('❌ Unable to start server:', error);
+        process.exit(1); // Exit process if server can't start
     }
 };
 

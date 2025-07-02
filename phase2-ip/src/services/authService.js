@@ -1,93 +1,110 @@
-// src/services/authService.js - FIXED VERSION
+// src/services/authService.js - COMPLETE FIXED VERSION
 import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
-// Create axios instance with CORRECT base URL
+console.log('🔧 AuthService API_URL:', API_URL);
+
 const api = axios.create({
-    baseURL: `${API_URL}/api/auth`, // ✅ FIXED: Changed from /api/users to /api/auth
+    baseURL: API_URL,
     headers: {
         'Content-Type': 'application/json',
     },
 });
 
-// Add token to requests if available
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
-    console.log('🔐 Auth Request:', config.method?.toUpperCase(), config.url);
+    console.log('🔐 Auth Request:', config.method?.toUpperCase(), config.baseURL + config.url);
     return config;
 });
 
-// Add response interceptor to handle errors
 api.interceptors.response.use(
     (response) => {
         console.log('✅ Auth Success:', response.status, response.config.url);
         return response;
     },
     (error) => {
-        console.error('❌ Auth Error:', error.response?.status, error.config?.url);
+        console.error('❌ Auth Error:', error.response?.status, error.config?.url, error.response?.data);
         if (error.response?.status === 401) {
-            // Token expired or invalid
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            // Optionally redirect to login
         }
         return Promise.reject(error);
     }
 );
 
 const authService = {
-    // Regular login - FIXED endpoint
-    login: async (userData) => {
-        return await api.post('/login', userData); // ✅ Will call /api/auth/login
-    },
-
-    // Register - FIXED endpoint
+    // Register - map frontend 'name' to backend 'username'
     register: async (userData) => {
-        return await api.post('/register', userData); // ✅ Will call /api/auth/register
+        const backendData = {
+            username: userData.name, // ✅ Frontend sends 'name', backend expects 'username'
+            email: userData.email,
+            password: userData.password
+        };
+        console.log('📝 Register data:', backendData);
+        return await api.post('/api/auth/register', backendData);
     },
 
-    // Google login - FIXED endpoint
+    // Login
+    login: async (userData) => {
+        console.log('🔐 Login data:', userData);
+        return await api.post('/api/auth/login', userData);
+    },
+
+    // Google Login
     googleLogin: async (googleData) => {
-        return await api.post('/google', googleData); // ✅ Will call /api/auth/google
+        console.log('🔐 Google login data:', googleData);
+        return await api.post('/api/auth/google', googleData);
     },
 
-    // Get current user - FIXED endpoint
+    // Get current user
     getCurrentUser: async () => {
-        return await api.get('/me'); // ✅ Will call /api/auth/me
+        return await api.get('/api/auth/me');
     },
 
-    // Update profile - FIXED
+    // Update profile
     updateProfile: async (profileData) => {
-        return await api.put('/profile', profileData); // ✅ Simplified
+        // Handle both profile updates and password changes
+        if (profileData.currentPassword) {
+            // Password change
+            return await api.put('/api/users/change-password', profileData);
+        } else {
+            // Profile update - map 'name' to 'username' if needed
+            const backendData = { ...profileData };
+            if (profileData.name) {
+                backendData.username = profileData.name;
+                delete backendData.name;
+            }
+            return await api.put('/api/users/profile', backendData);
+        }
     },
 
-    // Delete account - FIXED
+    // Delete account
     deleteAccount: async () => {
-        return await api.delete('/account'); // ✅ Simplified
+        return await api.delete('/api/users/profile');
     },
 
-    // Logout (clear token)
+    // Logout (clear local storage)
     logout: () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
     },
 
-    // Check if user is authenticated
+    // Check if authenticated
     isAuthenticated: () => {
         const token = localStorage.getItem('token');
         return !!token;
     },
 
-    // Get stored token
+    // Get token
     getToken: () => {
         return localStorage.getItem('token');
     },
 
-    // Get stored user
+    // Get user
     getUser: () => {
         const user = localStorage.getItem('user');
         return user ? JSON.parse(user) : null;
