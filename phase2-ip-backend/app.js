@@ -28,9 +28,9 @@ const { smartSearch, generatePlaylist, testAI } = require('./controllers/aiContr
 
 const app = express();
 
-// IMPROVED CORS Configuration for Google Sign-In
 const corsOptions = {
     origin: [
+        'https://hendyhuang.site',
         'http://localhost:3000',
         'http://localhost:5173',
         'http://localhost:3001'
